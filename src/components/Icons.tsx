@@ -114,22 +114,31 @@ export const IkonTutup = ({ size = 24, className }: P) => (
   </svg>
 )
 
-/** Lambang RideMate: roda dan setang, disederhanakan sampai terbaca di 20px. */
+/**
+ * Lambang RideMate — logo sungguhan, bukan ikon gambar tangan.
+ *
+ * KENAPA BERKAS GAMBAR, PADAHAL SELURUH BERKAS INI BERISI SVG
+ *
+ * Ikon di atas digambar tangan karena bentuknya sederhana dan harus bisa
+ * ganti warna mengikuti tempatnya dipasang. Logo ini sebaliknya: ia lukisan
+ * — pegunungan, matahari, jalan, pengendara — dan satu-satunya versi yang
+ * sah adalah berkas aslinya. Menggambar ulang berarti membuat logo kedua
+ * yang mirip tapi tidak sama, dan dua logo yang mirip lebih buruk daripada
+ * satu berkas gambar.
+ *
+ * Jalurnya lewat BASE_URL, bukan "/logo.png". Vite disetel base: './' supaya
+ * hasil build tetap jalan dari subfolder; jalur absolut akan memutus itu.
+ */
+const BERKAS_LOGO = `${import.meta.env.BASE_URL}logo.png`
+
 export const Lambang = ({ size = 34, className }: P) => (
-  <svg
+  <img
+    src={BERKAS_LOGO}
     width={size}
     height={size}
-    viewBox="0 0 32 32"
+    alt=""
     aria-hidden
-    focusable="false"
     className={className}
-  >
-    <rect width="32" height="32" rx="9" fill="var(--teal-deep)" />
-    <g fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="8.5" cy="19" r="4" stroke="var(--sunset)" />
-      <circle cx="23.5" cy="19" r="4" stroke="var(--sunset)" />
-      <path d="M8.5 19h5.5l4-7h5" stroke="var(--cream)" />
-      <path d="M16 12.5h4" stroke="var(--cream)" />
-    </g>
-  </svg>
+    style={{ display: 'block', objectFit: 'contain' }}
+  />
 )

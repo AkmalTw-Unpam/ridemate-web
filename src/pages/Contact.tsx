@@ -143,8 +143,8 @@ export function Contact() {
               </p>
             ) : (
               <p className="kaki__redup">
-                Alamat email belum dikonfigurasi. Isi <code>VITE_CONTACT_EMAIL</code> di berkas{' '}
-                <code>.env</code> untuk menampilkannya di sini.
+                Alamat email belum dikonfigurasi. Isi <code>contactEmail</code> di{' '}
+                <code>src/services/config.ts</code> untuk menampilkannya di sini.
               </p>
             )}
             <h3 style={{ marginTop: 22 }}>Masalah di aplikasi</h3>

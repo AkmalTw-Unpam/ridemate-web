@@ -20,13 +20,50 @@ function teks(nilai: unknown): string {
   return typeof nilai === 'string' ? nilai.trim() : ''
 }
 
+/* ============================================================
+   ISI DI SINI — INI SATU-SATUNYA TEMPAT YANG PERLU KAMU SENTUH
+   ============================================================
+
+   Kosongkan ("") yang belum ada. Yang kosong tidak ditampilkan sama
+   sekali, bukan ditampilkan sebagai tautan mati.
+
+   KENAPA DITULIS DI BERKAS INI, BUKAN DI .env
+
+   Situs ini dibangun GitHub, bukan di laptopmu. Berkas .env ada di
+   komputermu dan tidak pernah ikut terunggah ke repo — memang begitu
+   seharusnya, karena .env biasanya berisi rahasia. Akibatnya apa pun
+   yang kamu tulis di .env TIDAK akan ada saat GitHub membangun situsnya,
+   dan hasilnya tetap bertuliskan "Email belum dikonfigurasi".
+
+   Nilai di bawah tidak satu pun rahasia — alamat email dan tautan media
+   sosial memang untuk dibaca umum. Jadi menuliskannya di sini aman, dan
+   satu-satunya cara agar ia benar-benar sampai ke situs yang terbit.
+
+   .env tetap berfungsi dan tetap menang kalau diisi. Itu berguna untuk
+   mencoba nilai berbeda di laptop tanpa mengubah berkas ini.
+
+   YANG TIDAK BOLEH DITULIS DI SINI
+   Service role key Supabase, kunci Firebase, kunci Google Maps tanpa
+   pembatasan. Seluruh isi berkas ini ikut terkirim ke peramban setiap
+   pengunjung dan bisa dibaca siapa pun lewat devtools. */
+const BAWAAN = {
+  /** Contoh: 'halo@ridemate.my.id' */
+  contactEmail: '',
+  /** Contoh: 'https://instagram.com/ridemate.id' */
+  instagramUrl: '',
+  /** Contoh: 'https://youtube.com/@ridemate' */
+  youtubeUrl: '',
+  /** Diisi nanti, setelah aplikasinya terbit di Google Play. */
+  playStoreUrl: '',
+}
+
 export const config = {
   apiBaseUrl: teks(env.VITE_API_BASE_URL),
   apiPublicKey: teks(env.VITE_API_PUBLIC_KEY),
-  playStoreUrl: teks(env.VITE_PLAY_STORE_URL),
-  contactEmail: teks(env.VITE_CONTACT_EMAIL),
-  instagramUrl: teks(env.VITE_INSTAGRAM_URL),
-  youtubeUrl: teks(env.VITE_YOUTUBE_URL),
+  playStoreUrl: teks(env.VITE_PLAY_STORE_URL) || BAWAAN.playStoreUrl,
+  contactEmail: teks(env.VITE_CONTACT_EMAIL) || BAWAAN.contactEmail,
+  instagramUrl: teks(env.VITE_INSTAGRAM_URL) || BAWAAN.instagramUrl,
+  youtubeUrl: teks(env.VITE_YOUTUBE_URL) || BAWAAN.youtubeUrl,
 }
 
 /**

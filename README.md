@@ -212,11 +212,18 @@ di Settings. Mengubah salah satunya saja akan membuat keduanya bertengkar.
 
 ## Yang masih perlu kamu isi
 
+Email dan media sosial diisi di **`src/services/config.ts`**, di blok
+`BAWAAN` dekat bagian atas berkas. Bukan di `.env` — `.env` ada di
+laptopmu dan tidak pernah ikut ke repo, jadi GitHub membangun situsnya
+tanpa melihat isinya. Keempat nilai itu bukan rahasia, jadi menuliskannya
+langsung di berkas aman.
+
 - [ ] Foto hero — `public/hero-touring.webp` sekarang memakai foto touring
       milikmu. Pastikan ketentuan alat yang dipakai mengolahnya mengizinkan
       pemakaian komersial.
-- [ ] `VITE_PLAY_STORE_URL` begitu aplikasi terbit.
-- [ ] `VITE_CONTACT_EMAIL` dan tautan media sosial.
+- [ ] `playStoreUrl` begitu aplikasi terbit. Selama kosong, tombolnya
+      bertuliskan "Segera hadir" dan tidak bisa diklik — bukan tautan mati.
+- [ ] `contactEmail`, `instagramUrl`, `youtubeUrl`.
 - [ ] Halaman kebijakan privasi — **wajib** untuk Google Play, dan tautannya
       diminta saat mengisi formulir Data safety.
 - [ ] Ganti data contoh di `data/demo.ts` dengan API sungguhan, atau biarkan

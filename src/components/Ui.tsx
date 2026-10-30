@@ -1,9 +1,21 @@
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { IkonInfo } from './Icons'
 import { playStoreSiap, config } from '../services/config'
 import { IkonUnduh } from './Icons'
+import { useMuncul } from '../hooks/useMuncul'
 
-/** Pembungkus satu bagian halaman, lengkap dengan lebar maksimumnya. */
+/**
+ * Pembungkus satu bagian halaman, lengkap dengan lebar maksimumnya.
+ *
+ * Sekaligus titik pasang animasi munculnya isi halaman. Dipasang di sini,
+ * bukan di tiap halaman, karena setiap bagian di situs ini memang melewati
+ * komponen ini — jadi satu perubahan menyalakan animasi di keenam halaman
+ * sekaligus, dan tidak ada bagian yang kelupaan.
+ *
+ * Yang menggerakkan sebenarnya CSS; komponen ini cuma menambahkan kelas
+ * is-tampil saat bagiannya masuk layar.
+ */
 export function Bagian({
   children,
   nada = 'terang',
@@ -15,6 +27,7 @@ export function Bagian({
   rapat?: boolean
   id?: string
 }) {
+  const { ref, tampil } = useMuncul<HTMLDivElement>()
   const kelasNada =
     nada === 'gelap' ? ' section--dark'
     : nada === 'malam' ? ' section--night'
@@ -22,8 +35,72 @@ export function Bagian({
     : ''
   return (
     <section id={id} className={`section${rapat ? ' section--tight' : ''}${kelasNada}`}>
-      <div className="wrap">{children}</div>
+      <div ref={ref} className={`wrap muncul${tampil ? ' is-tampil' : ''}`}>
+        {children}
+      </div>
     </section>
+  )
+}
+
+/**
+ * Angka yang berhitung naik begitu masuk layar.
+ *
+ * aria-live sengaja TIDAK dipakai. Angka yang berubah enam puluh kali per
+ * detik akan dibacakan pembaca layar berkali-kali, dan hasilnya bukan
+ * informasi melainkan kebisingan. Pembaca layar membacanya sekali, setelah
+ * animasinya berhenti, seperti teks biasa.
+ *
+ * Hitungannya hanya berjalan SEKALI seumur halaman — dijaga sudahJalan.
+ * Tanpa itu, menggulir naik-turun melewati angkanya akan memulai ulang
+ * animasi berkali-kali, dan yang tadinya detail kecil berubah jadi
+ * gangguan.
+ */
+export function AngkaNaik({
+  nilai,
+  akhiran = '',
+  durasi = 1400,
+}: {
+  nilai: number
+  akhiran?: string
+  durasi?: number
+}) {
+  const { ref, tampil } = useMuncul<HTMLSpanElement>()
+  const [tampak, setTampak] = useState(0)
+  const sudahJalan = useRef(false)
+
+  useEffect(() => {
+    if (!tampil || sudahJalan.current) return
+    sudahJalan.current = true
+
+    const kurangiGerak =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (kurangiGerak) {
+      setTampak(nilai)
+      return
+    }
+
+    let rangka = 0
+    const mulai = performance.now()
+
+    const langkah = (sekarang: number) => {
+      const maju = Math.min(1, (sekarang - mulai) / durasi)
+      // Melambat di ujung, bukan laju tetap. Angka yang berhenti mendadak
+      // terbaca seperti halaman yang nge-lag, bukan seperti animasi.
+      const halus = 1 - Math.pow(1 - maju, 3)
+      setTampak(Math.round(nilai * halus))
+      if (maju < 1) rangka = requestAnimationFrame(langkah)
+    }
+
+    rangka = requestAnimationFrame(langkah)
+    return () => cancelAnimationFrame(rangka)
+  }, [tampil, nilai, durasi])
+
+  return (
+    <span ref={ref}>
+      {tampak.toLocaleString('id-ID')}
+      {akhiran}
+    </span>
   )
 }
 

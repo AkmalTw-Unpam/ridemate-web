@@ -1,16 +1,24 @@
 import { ROUTES } from '../router/useRoute'
 import { Ponsel } from '../components/Ponsel'
-import { Bagian, JudulBagian, Kartu, TombolUnduh } from '../components/Ui'
+import { Bagian, JudulBagian, Kartu, TombolUnduh, AngkaNaik } from '../components/Ui'
 import { Medali } from '../components/Medali'
 import {
   IkonPeta, IkonRute, IkonOrang, IkonLencana, IkonPanah, IkonPerisai, IkonGrafik,
 } from '../components/Icons'
 
+/**
+ * Nilainya angka, bukan teks.
+ *
+ * Pemisah ribuan dibentuk toLocaleString('id-ID') saat ditampilkan, jadi
+ * "10.000" tidak pernah ditulis tangan di sini. Angka yang ditulis sebagai
+ * teks tidak bisa dihitung naik, dan yang ditulis tangan dengan titik
+ * cepat atau lambat akan salah format di satu tempat.
+ */
 const ANGKA = [
-  { nilai: '13', label: 'lencana untuk dikejar' },
-  { nilai: '6', label: 'bentuk motor penanda' },
-  { nilai: '5', label: 'gaya peta, termasuk 3D' },
-  { nilai: '10.000', label: 'km menuju platina' },
+  { nilai: 13, label: 'lencana untuk dikejar' },
+  { nilai: 6, label: 'bentuk motor penanda' },
+  { nilai: 5, label: 'gaya peta, termasuk 3D' },
+  { nilai: 10000, label: 'km menuju platina' },
 ]
 
 export function Home() {
@@ -54,7 +62,7 @@ export function Home() {
         <div className="grid grid--4">
           {ANGKA.map((a) => (
             <div key={a.label} className="angka">
-              <strong>{a.nilai}</strong>
+              <strong><AngkaNaik nilai={a.nilai} /></strong>
               <span>{a.label}</span>
             </div>
           ))}
