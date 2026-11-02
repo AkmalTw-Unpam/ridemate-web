@@ -565,8 +565,12 @@ main > .section--dark:first-child {
 .kaki { background: var(--night); color: var(--cream); padding: clamp(48px, 7vw, 76px) 0 34px; }
 .kaki__atas {
   display: grid;
-  grid-template-columns: minmax(240px, 1.6fr) repeat(2, minmax(150px, 1fr));
-  gap: 38px;
+  /* Tiga kolom tautan sejak halaman statis (privasi, hapus akun, ganti
+     password) ikut ditaut di sini. Lebar minimum kolom diturunkan dari
+     150px ke 136px supaya keempatnya tetap muat sebaris di layar laptop
+     sempit, tanpa kolom merek jadi gepeng. */
+  grid-template-columns: minmax(220px, 1.5fr) repeat(3, minmax(136px, 1fr));
+  gap: 32px;
   padding-bottom: 34px;
   border-bottom: 1px solid var(--night-line);
 }
@@ -588,6 +592,11 @@ main > .section--dark:first-child {
 
 @media (max-width: 760px) {
   .kaki__atas { grid-template-columns: 1fr; gap: 28px; }
+}
+/* Di lebar menengah, empat kolom terlalu sempit tapi satu kolom boros.
+   Dua kolom adalah kompromi yang benar di antaranya. */
+@media (min-width: 721px) and (max-width: 980px) {
+  .kaki__atas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; }
 }
 
 /* ============================================================

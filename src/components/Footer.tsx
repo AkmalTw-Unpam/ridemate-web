@@ -38,6 +38,30 @@ export function Footer() {
             <Tautan ke={ROUTES.contact}>Kontak &amp; FAQ</Tautan>
           </nav>
 
+          {/*
+            Akun & privasi — halaman statis di public/, BUKAN rute React.
+
+            Keempatnya memakai <a href> biasa, bukan komponen Tautan, dan itu
+            wajib. Tautan mencegat klik lalu menyerahkannya ke router, dan
+            router cuma mengenal keenam jalur di rute.json — alamat di luar itu
+            dipulangkan ke beranda. Hasilnya: alamat di bilah peramban berubah
+            jadi /privasi.html tapi yang tampil tetap beranda, dan berkas
+            privasi yang sebenarnya tidak pernah terbuka.
+
+            <a href> biasa membuat peramban memuat ulang halaman sungguhan,
+            yang memang itu yang dibutuhkan untuk berkas statis.
+
+            Halaman /pantau/ sengaja TIDAK ditaut dari sini: tanpa token di
+            alamatnya ia cuma menampilkan "tautan tidak dikenali", dan ia
+            memang tidak boleh ditemukan lewat jalur umum.
+          */}
+          <nav className="kaki__kolom" aria-label="Akun dan privasi">
+            <h4>Akun &amp; privasi</h4>
+            <a href="/privasi.html">Kebijakan privasi</a>
+            <a href="/hapus-akun.html">Hapus akun</a>
+            <a href="/ganti-password.html">Ganti password</a>
+          </nav>
+
           <div className="kaki__kolom">
             <h4>Hubungi</h4>
             {config.contactEmail ? (
