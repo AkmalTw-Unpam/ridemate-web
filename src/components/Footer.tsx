@@ -60,6 +60,8 @@ export function Footer() {
             <a href="/privasi.html">Kebijakan privasi</a>
             <a href="/hapus-akun.html">Hapus akun</a>
             <a href="/ganti-password.html">Ganti password</a>
+            {/* Dihapus bersama halamannya begitu RideMate terbit di Play Store. */}
+            <a href="/uji/">Versi uji coba</a>
           </nav>
 
           <div className="kaki__kolom">

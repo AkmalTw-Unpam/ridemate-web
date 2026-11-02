@@ -54,6 +54,32 @@ export function Home() {
               </Tautan>
               <TombolUnduh gaya="ghost" />
             </div>
+
+            {/*
+              Tautan ke versi uji coba.
+
+              SENGAJA KECIL, DAN SENGAJA DI BAWAH TOMBOL UTAMA.
+              Yang dituju halaman ini pengunjung yang ingin tahu RideMate itu
+              apa, bukan penguji. Versi uji coba adalah build debug dari
+              aplikasi yang belum selesai — kalau ia tampil sebesar tombol
+              utama, orang akan memasangnya lebih dulu dan menilai RideMate
+              dari situ.
+
+              <a href> biasa, bukan komponen Tautan: /uji/ berkas statis di
+              public/, bukan rute React. Router akan memulangkannya ke
+              beranda.
+
+              Halamannya tetap memasang noindex dan tetap dilarang di
+              robots.txt. Ditaut dan diindeks itu dua hal berbeda — yang
+              pertama untuk manusia yang diberi tahu, yang kedua untuk orang
+              asing dari hasil pencarian.
+
+              DIHAPUS BEGITU APLIKASINYA TERBIT DI PLAY STORE.
+            */}
+            <p className="hero__uji">
+              Sedang membantu menguji?{' '}
+              <a href="/uji/">Unduh versi uji coba <span aria-hidden="true">→</span></a>
+            </p>
           </div>
 
           <div className="hero__ponsel reveal reveal--2">
