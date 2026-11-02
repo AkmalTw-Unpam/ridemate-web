@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ROUTES } from '../router/useRoute'
 import { Lambang, IkonMenu, IkonTutup } from './Icons'
 import { TombolUnduh } from './Ui'
+import { Tautan } from './Tautan'
 
 const MENU = [
   { ke: ROUTES.home, label: 'Beranda' },
@@ -42,21 +43,21 @@ export function Navbar({ aktif }: { aktif: string }) {
   return (
     <header className={`nav${turun ? ' nav--turun' : ''}`}>
       <div className="wrap nav__isi">
-        <a href={`#${ROUTES.home}`} className="nav__merek" aria-label="RideMate, ke beranda">
+        <Tautan ke={ROUTES.home} className="nav__merek" aria-label="RideMate, ke beranda">
           <Lambang size={36} />
           <span>RideMate</span>
-        </a>
+        </Tautan>
 
         <nav className="nav__tautan" aria-label="Menu utama">
           {MENU.map((m) => (
-            <a
+            <Tautan
               key={m.ke}
-              href={`#${m.ke}`}
+              ke={m.ke}
               className={aktif === m.ke ? 'is-aktif' : undefined}
               aria-current={aktif === m.ke ? 'page' : undefined}
             >
               {m.label}
-            </a>
+            </Tautan>
           ))}
         </nav>
 
@@ -80,14 +81,14 @@ export function Navbar({ aktif }: { aktif: string }) {
         <div className="nav__panel" id="menu-ponsel">
           <nav aria-label="Menu ponsel">
             {MENU.map((m) => (
-              <a
+              <Tautan
                 key={m.ke}
-                href={`#${m.ke}`}
+                ke={m.ke}
                 className={aktif === m.ke ? 'is-aktif' : undefined}
                 aria-current={aktif === m.ke ? 'page' : undefined}
               >
                 {m.label}
-              </a>
+              </Tautan>
             ))}
           </nav>
           <div style={{ marginTop: 18 }}>

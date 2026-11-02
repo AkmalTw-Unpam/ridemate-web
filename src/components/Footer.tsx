@@ -1,6 +1,7 @@
 import { ROUTES } from '../router/useRoute'
 import { Lambang } from './Icons'
 import { config, apiSiap } from '../services/config'
+import { Tautan } from './Tautan'
 
 export function Footer() {
   const tahun = new Date().getFullYear()
@@ -18,10 +19,10 @@ export function Footer() {
       <div className="wrap">
         <div className="kaki__atas">
           <div className="kaki__merek">
-            <a href={`#${ROUTES.home}`} className="nav__merek" style={{ marginBottom: 12 }}>
+            <Tautan ke={ROUTES.home} className="nav__merek" style={{ marginBottom: 12 }}>
               <Lambang size={34} />
               <span>RideMate</span>
-            </a>
+            </Tautan>
             <p>
               Aplikasi Android untuk peturing motor. Navigasi khusus roda dua,
               catatan jarak tempuh, rombongan, dan lencana pencapaian.
@@ -30,11 +31,11 @@ export function Footer() {
 
           <nav className="kaki__kolom" aria-label="Halaman">
             <h4>Halaman</h4>
-            <a href={`#${ROUTES.features}`}>Fitur</a>
-            <a href={`#${ROUTES.rewards}`}>Lencana</a>
-            <a href={`#${ROUTES.community}`}>Komunitas</a>
-            <a href={`#${ROUTES.about}`}>Tentang</a>
-            <a href={`#${ROUTES.contact}`}>Kontak &amp; FAQ</a>
+            <Tautan ke={ROUTES.features}>Fitur</Tautan>
+            <Tautan ke={ROUTES.rewards}>Lencana</Tautan>
+            <Tautan ke={ROUTES.community}>Komunitas</Tautan>
+            <Tautan ke={ROUTES.about}>Tentang</Tautan>
+            <Tautan ke={ROUTES.contact}>Kontak &amp; FAQ</Tautan>
           </nav>
 
           <div className="kaki__kolom">

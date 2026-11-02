@@ -59,7 +59,8 @@ devtools. Jadi:
 src/
   main.tsx              titik masuk
   App.tsx               rute, judul halaman, kerangka
-  router/useRoute.ts    router hash sederhana
+  router/useRoute.ts    router History API sederhana
+  router/rute.json      daftar rute + judul + deskripsi (satu sumber kebenaran)
   components/           Navbar, Footer, Ikon, Medali, Ponsel, Ui
   pages/                Home, Features, Rewards, Community, About, Contact
   services/
@@ -147,10 +148,9 @@ plugin-nya di `vite.config.ts`, lalu salin blok `:root` dari `theme.css` jadi
 token tema Tailwind.
 
 **react-router tidak dipakai.** Enam halaman statis tanpa parameter. Router
-hash di `router/useRoute.ts` tiga puluh baris dan berjalan dari subfolder
-mana pun tanpa konfigurasi server — rute History API butuh server yang
-mengembalikan `index.html` untuk tiap jalur, dan tanpa itu menyegarkan
-halaman `/fitur` menghasilkan 404.
+History API di `router/useRoute.ts` muat dalam satu berkas, sementara
+react-router menambah sekitar 20 KB terkirim dan satu dependensi yang harus
+ikut diperbarui seumur proyek.
 
 **lucide-react tidak dipakai.** Situs ini memakai sebelas ikon; semuanya
 digambar tangan di `components/Icons.tsx` memakai `currentColor`.
@@ -164,14 +164,61 @@ tampil di situs.
 
 ## Catatan SEO
 
-Metadata dasar ada di `index.html`, dan judul per halaman diperbarui
-`App.tsx`. Karena ini aplikasi satu bundel tanpa render di server, perayap
-yang tidak menjalankan JavaScript hanya melihat metadata di `index.html`.
-Google menjalankan JavaScript, jadi untuk sebagian besar keperluan ini cukup.
+### Kenapa alamatnya bukan `#/fitur` lagi
 
-Kalau nanti butuh metadata berbeda per halaman di hasil pencarian dan di
-pratinjau tautan media sosial, jawabannya bukan pustaka meta melainkan
-pra-render — `vite-plugin-ssg` atau sejenisnya.
+Versi pertama situs ini memakai router hash: `ridemate.my.id/#/fitur`. Itu
+pilihan yang nyaman — berjalan di mana pun tanpa konfigurasi server, dan
+menyegarkan halaman tidak pernah menghasilkan 404.
+
+Harganya baru terlihat setelah situsnya terbit. Bagi mesin pencari, apa pun
+di belakang `#` bukan halaman terpisah; potongan itu bahkan tidak dikirim ke
+server. Keenam halaman terbaca Google sebagai satu alamat yang sama. Lima di
+antaranya tidak akan pernah muncul di hasil pencarian — bukan "belum",
+melainkan tidak akan pernah.
+
+### Bagaimana sekarang
+
+`scripts/prarender.mjs` berjalan sesudah `vite build` dan menulis berkas
+HTML sungguhan untuk tiap rute:
+
+```
+dist/index.html            → ridemate.my.id/
+dist/fitur/index.html      → ridemate.my.id/fitur
+dist/lencana/index.html    → ridemate.my.id/lencana
+…
+```
+
+Tiap berkas punya `<title>`, `description`, `canonical`, dan tag Open Graph
+sendiri. GitHub Pages menyajikannya apa adanya dengan status **200**, dan
+Google mengindeksnya seperti halaman mana pun. Skrip yang sama juga
+membangkitkan `sitemap.xml`.
+
+Isi halamannya tetap digambar JavaScript sesudah dimuat, dan itu cukup —
+Google menjalankan JavaScript saat merayapi. Yang tidak bisa ia tebak adalah
+bahwa `/fitur` itu halaman tersendiri, dan justru itu yang dibereskan.
+
+### Kenapa 404.html bukan salinan index.html
+
+Trik yang umum di GitHub Pages adalah menyalin `index.html` jadi `404.html`
+supaya alamat apa pun tetap memuat aplikasinya. Itu berfungsi untuk manusia
+dan gagal untuk mesin pencari: statusnya tetap 404, dan Google tidak pernah
+mengindeks halaman yang menjawab 404.
+
+`public/404.html` di sini halaman berdiri sendiri yang memang mengatakan
+halamannya tidak ada, lengkap dengan jalan kembali.
+
+### Menambah halaman baru
+
+Satu tempat: tambahkan entri di **`src/router/rute.json`**. Judul tab,
+berkas prarender, dan `sitemap.xml` ikut sendiri. Yang masih manual cuma
+menambahkan komponen halamannya di `App.tsx` dan menu di `Navbar.tsx`.
+
+### Sesudah terbit
+
+Daftarkan situsnya di [Google Search Console](https://search.google.com/search-console),
+verifikasi lewat record TXT di Cloudflare, lalu kirim
+`https://ridemate.my.id/sitemap.xml` di menu **Sitemap**. Tanpa itu Google
+bisa butuh berminggu-minggu menemukan situs yang belum ditaut siapa pun.
 
 ---
 

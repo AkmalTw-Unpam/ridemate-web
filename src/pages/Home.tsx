@@ -5,6 +5,7 @@ import { Medali } from '../components/Medali'
 import {
   IkonPeta, IkonRute, IkonOrang, IkonLencana, IkonPanah, IkonPerisai, IkonGrafik,
 } from '../components/Icons'
+import { Tautan } from '../components/Tautan'
 
 /**
  * Nilainya angka, bukan teks.
@@ -27,7 +28,11 @@ export function Home() {
       {/* ============ Hero ============ */}
       <section className="hero">
         <div className="hero__latar" aria-hidden="true">
-          <img src="./hero-touring.webp" alt="" />
+          {/* Jalur absolut, bukan "./hero-touring.webp". Alamat relatif
+              dibaca peramban terhadap alamat halaman yang sedang dibuka —
+              dan sejak tiap rute punya berkasnya sendiri, "./" dari halaman
+              /fitur/ menunjuk ke tempat yang salah. */}
+          <img src="/hero-touring.webp" alt="" />
           <div className="hero__tirai" />
         </div>
 
@@ -44,9 +49,9 @@ export function Home() {
               tempuh tercatat jadi pencapaian.
             </p>
             <div className="btn-row" style={{ marginTop: 26 }}>
-              <a className="btn btn--primary" href={`#${ROUTES.features}`}>
+              <Tautan className="btn btn--primary" ke={ROUTES.features}>
                 Jelajahi Fitur <IkonPanah size={18} />
-              </a>
+              </Tautan>
               <TombolUnduh gaya="ghost" />
             </div>
           </div>
@@ -105,9 +110,9 @@ export function Home() {
               lede="Tiga belas lencana, dari perunggu sampai platina. Dihitung ulang dari seluruh riwayat perjalananmu, jadi yang sudah kamu tempuh tidak pernah hangus."
             />
             <div className="btn-row">
-              <a className="btn btn--primary" href={`#${ROUTES.rewards}`}>
+              <Tautan className="btn btn--primary" ke={ROUTES.rewards}>
                 Lihat semua lencana <IkonPanah size={18} />
-              </a>
+              </Tautan>
             </div>
           </div>
           <div className="pamer__medali">
@@ -155,7 +160,7 @@ export function Home() {
           </p>
           <div className="btn-row" style={{ justifyContent: 'center', marginTop: 24 }}>
             <TombolUnduh gaya="primary" />
-            <a className="btn btn--ghost" href={`#${ROUTES.contact}`}>Hubungi kami</a>
+            <Tautan className="btn btn--ghost" ke={ROUTES.contact}>Hubungi kami</Tautan>
           </div>
         </div>
       </Bagian>

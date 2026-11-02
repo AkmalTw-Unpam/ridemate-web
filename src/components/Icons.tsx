@@ -126,8 +126,10 @@ export const IkonTutup = ({ size = 24, className }: P) => (
  * yang mirip tapi tidak sama, dan dua logo yang mirip lebih buruk daripada
  * satu berkas gambar.
  *
- * Jalurnya lewat BASE_URL, bukan "/logo.png". Vite disetel base: './' supaya
- * hasil build tetap jalan dari subfolder; jalur absolut akan memutus itu.
+ * Jalurnya lewat BASE_URL dan bukan ditulis "/logo.png" langsung. Keduanya
+ * menghasilkan hal yang sama selama base tetap '/', tapi BASE_URL ikut
+ * berubah sendiri kalau suatu saat situsnya dipindah ke subfolder — sedangkan
+ * jalur yang ditulis tangan harus diingat untuk ikut diubah.
  */
 const BERKAS_LOGO = `${import.meta.env.BASE_URL}logo.png`
 

@@ -1,6 +1,7 @@
 import { Bagian, JudulBagian, TombolUnduh } from '../components/Ui'
 import { ROUTES } from '../router/useRoute'
 import { IkonPanah } from '../components/Icons'
+import { Tautan } from '../components/Tautan'
 
 const NILAI = [
   {
@@ -78,9 +79,9 @@ export function About() {
             kalau yang kamu cari tidak ada di sana.
           </p>
           <div className="btn-row" style={{ justifyContent: 'center', marginTop: 22 }}>
-            <a className="btn btn--primary" href={`#${ROUTES.contact}`}>
+            <Tautan className="btn btn--primary" ke={ROUTES.contact}>
               Kontak &amp; FAQ <IkonPanah size={18} />
-            </a>
+            </Tautan>
             <TombolUnduh gaya="ghost" />
           </div>
         </div>

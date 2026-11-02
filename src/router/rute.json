@@ -1,0 +1,38 @@
+[
+  {
+    "jalur": "/",
+    "nama": "home",
+    "judul": "RideMate — Perjalananmu, Ceritamu",
+    "deskripsi": "Aplikasi Android untuk peturing motor: navigasi roda dua, rombongan di satu peta, dan lencana pencapaian."
+  },
+  {
+    "jalur": "/fitur",
+    "nama": "features",
+    "judul": "Fitur — RideMate",
+    "deskripsi": "Navigasi khusus motor, rute alternatif, rombongan di satu peta, avatar kendaraan, dan catatan jarak tempuh."
+  },
+  {
+    "jalur": "/lencana",
+    "nama": "rewards",
+    "judul": "Lencana & Pencapaian — RideMate",
+    "deskripsi": "Tiga belas lencana dari perunggu sampai platina, dihitung dari jarak yang benar-benar kamu tempuh."
+  },
+  {
+    "jalur": "/komunitas",
+    "nama": "community",
+    "judul": "Komunitas — RideMate",
+    "deskripsi": "Buat rencana touring, kumpulkan rombongan, berangkat bersama, lalu saling menilai."
+  },
+  {
+    "jalur": "/tentang",
+    "nama": "about",
+    "judul": "Tentang — RideMate",
+    "deskripsi": "Kenapa RideMate dibuat, dan tiga hal yang tidak ditawar: jujur, privasi, dan komunitas yang bisa direm."
+  },
+  {
+    "jalur": "/kontak",
+    "nama": "contact",
+    "judul": "Kontak & FAQ — RideMate",
+    "deskripsi": "Pertanyaan yang sering masuk tentang RideMate, dan cara menghubungi kami."
+  }
+]

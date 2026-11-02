@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { ROUTES, useRoute } from './router/useRoute'
+import { ROUTES, RUTE, useRoute } from './router/useRoute'
 import { Navbar } from './components/Navbar'
 import { Footer } from './components/Footer'
 import { Home } from './pages/Home'
@@ -10,43 +10,21 @@ import { About } from './pages/About'
 import { Contact } from './pages/Contact'
 
 /**
- * Judul dan deskripsi per halaman.
+ * Judul dan deskripsi per halaman — dibaca dari router/rute.json.
  *
- * Diperbarui lewat efek, bukan lewat pustaka seperti react-helmet. Situs ini
- * satu bundel tanpa render di server, jadi perayap yang tidak menjalankan
- * JavaScript tetap hanya melihat judul di index.html — pustaka apa pun tidak
- * mengubah kenyataan itu. Yang berubah di sini judul tab dan judul yang
- * tersimpan saat halaman di-bookmark, dan untuk itu empat baris sudah cukup.
+ * SATU DAFTAR, TIGA PEMAKAI
  *
- * Kalau SEO per halaman nanti jadi penting, jawabannya bukan pustaka meta
- * melainkan pra-render — lihat README bagian "Catatan SEO".
+ * Berkas rute.json yang sama dipakai tiga tempat: komponen ini untuk judul
+ * tab, scripts/prarender.mjs untuk menulis berkas HTML tiap halaman, dan
+ * skrip yang sama untuk membangkitkan sitemap.xml.
+ *
+ * Dulu daftarnya ditulis ulang di sini. Selama hanya judul tab yang
+ * bergantung padanya, itu tidak berbahaya. Begitu sitemap dan prarender ikut
+ * membacanya, tiga salinan berarti menambah halaman baru harus diingat di
+ * tiga tempat — dan yang terlupa biasanya sitemap, yang kesalahannya tidak
+ * terlihat sampai berbulan-bulan kemudian waktu halaman itu tidak pernah
+ * muncul di Google.
  */
-const META: Record<string, { judul: string; isi: string }> = {
-  [ROUTES.home]: {
-    judul: 'RideMate — Perjalananmu, Ceritamu',
-    isi: 'Aplikasi Android untuk peturing motor: navigasi roda dua, rombongan di satu peta, dan lencana pencapaian.',
-  },
-  [ROUTES.features]: {
-    judul: 'Fitur — RideMate',
-    isi: 'Navigasi khusus motor, rute alternatif, rombongan di satu peta, avatar kendaraan, dan catatan jarak tempuh.',
-  },
-  [ROUTES.rewards]: {
-    judul: 'Lencana & Pencapaian — RideMate',
-    isi: 'Tiga belas lencana dari perunggu sampai platina, dihitung dari jarak yang benar-benar kamu tempuh.',
-  },
-  [ROUTES.community]: {
-    judul: 'Komunitas — RideMate',
-    isi: 'Buat rencana touring, kumpulkan rombongan, berangkat bersama, lalu saling menilai.',
-  },
-  [ROUTES.about]: {
-    judul: 'Tentang — RideMate',
-    isi: 'Kenapa RideMate dibuat, dan tiga hal yang tidak ditawar: jujur, privasi, dan komunitas yang bisa direm.',
-  },
-  [ROUTES.contact]: {
-    judul: 'Kontak & FAQ — RideMate',
-    isi: 'Pertanyaan yang sering masuk tentang RideMate, dan cara menghubungi kami.',
-  },
-}
 
 function halaman(path: string) {
   switch (path) {
@@ -68,9 +46,15 @@ export default function App() {
   const path = useRoute()
 
   useEffect(() => {
-    const m = META[path] ?? META[ROUTES.home]
+    const m = RUTE.find((r) => r.jalur === path) ?? RUTE[0]
     document.title = m.judul
-    document.querySelector('meta[name="description"]')?.setAttribute('content', m.isi)
+    document.querySelector('meta[name="description"]')?.setAttribute('content', m.deskripsi)
+    // Canonical ikut diperbarui. Tanpa ini, keenam halaman menunjuk
+    // canonical yang sama dan Google diminta menganggap kelimanya salinan
+    // beranda — persis masalah yang baru saja dibereskan.
+    document
+      .querySelector('link[rel="canonical"]')
+      ?.setAttribute('href', `https://ridemate.my.id${path === ROUTES.home ? '/' : path}`)
   }, [path])
 
   return (

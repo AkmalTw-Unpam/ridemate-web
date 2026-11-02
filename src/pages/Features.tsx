@@ -4,6 +4,7 @@ import {
   IkonPeta, IkonRute, IkonOrang, IkonLencana, IkonGrafik, IkonMotor, IkonPerisai, IkonPanah,
 } from '../components/Icons'
 import { ROUTES } from '../router/useRoute'
+import { Tautan } from '../components/Tautan'
 
 const UTAMA = [
   {
@@ -69,9 +70,9 @@ export function Features() {
             />
             <div className="btn-row">
               <TombolUnduh gaya="primary" />
-              <a className="btn btn--ghost" href={`#${ROUTES.rewards}`}>
+              <Tautan className="btn btn--ghost" ke={ROUTES.rewards}>
                 Lihat lencana <IkonPanah size={18} />
-              </a>
+              </Tautan>
             </div>
           </div>
           <Ponsel miring={false} />

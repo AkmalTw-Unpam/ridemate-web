@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Halaman tidak ditemukan — RideMate</title>
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<!--
+  Halaman 404 yang jujur, bukan penyamaran.
+
+  Pola yang umum dipakai di GitHub Pages adalah menyalin index.html jadi
+  404.html, supaya alamat apa pun tetap memuat aplikasinya. Itu tidak
+  dipakai di sini karena dua alasan.
+
+  Pertama, sudah tidak perlu: scripts/prarender.mjs membuat berkas sungguhan
+  untuk tiap halaman, jadi /fitur dan kawan-kawannya menjawab 200 sendiri.
+
+  Kedua, pola itu merugikan. GitHub tetap mengirim status 404 bersama
+  isinya. Halaman salah ketik yang menampilkan beranda lengkap, dengan
+  status 404, membuat Google melihat situs penuh "halaman lunak" yang
+  isinya sama — dan itu menurunkan penilaian seluruh domain.
+
+  Halaman ini sengaja berdiri sendiri: tanpa React, tanpa bundel, satu
+  berkas yang tetap tampil meski semua yang lain gagal dimuat.
+-->
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    padding: 32px 20px;
+    display: flex; align-items: center; justify-content: center;
+    background: #0b1211;
+    color: #faf4e8;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    text-align: center;
+  }
+  main { max-width: 440px; }
+  img { width: 84px; height: 84px; object-fit: contain; margin-bottom: 22px; }
+  .atas {
+    font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: #d97a2b; font-weight: 600; margin: 0 0 10px;
+  }
+  h1 { font-size: 26px; margin: 0 0 12px; font-weight: 700; letter-spacing: -0.02em; }
+  p { color: #8caa9e; margin: 0 0 26px; font-size: 15px; }
+  .tombol {
+    display: inline-block; padding: 13px 26px; border-radius: 999px;
+    background: #d97a2b; color: #16232e;
+    font-weight: 600; font-size: 15px; text-decoration: none;
+  }
+  .tombol:hover { background: #e08c45; }
+  nav { margin-top: 28px; font-size: 14px; }
+  nav a { color: #8caa9e; text-decoration: none; margin: 0 9px; }
+  nav a:hover { color: #faf4e8; text-decoration: underline; }
+</style>
+</head>
+<body>
+  <main>
+    <img src="/logo.png" alt="RideMate">
+    <p class="atas">404</p>
+    <h1>Halaman ini tidak ada</h1>
+    <p>Alamatnya mungkin salah ketik, atau halamannya sudah dipindahkan.
+       Jalan pulangnya ada di bawah.</p>
+    <a class="tombol" href="/">Kembali ke beranda</a>
+    <nav>
+      <a href="/fitur">Fitur</a>
+      <a href="/lencana">Lencana</a>
+      <a href="/komunitas">Komunitas</a>
+      <a href="/tentang">Tentang</a>
+      <a href="/kontak">Kontak</a>
+    </nav>
+  </main>
+</body>
+</html>
