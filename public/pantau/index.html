@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Pantau perjalanan · RideMate</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #14403C; color: #FAF4E8;
+    display: flex; flex-direction: column; height: 100dvh;
+  }
+  header { padding: 14px 16px 12px; }
+  .merek { font-size: 12px; letter-spacing: 2px; color: #86A697; margin-bottom: 6px; }
+  h1 { font-size: 19px; margin: 0 0 3px; font-weight: 650; }
+  .tujuan { font-size: 14px; color: #D9CFBD; margin: 0; }
+  #peta { flex: 1; min-height: 240px; background: #0E2E2B; }
+  footer { padding: 11px 16px 16px; }
+  .baris { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: #D9CFBD; }
+  .baris b { color: #FAF4E8; font-weight: 600; }
+  .kabar { margin: 0 0 8px; font-size: 13px; }
+  .diam { color: #D97A2B; }
+  .pesan { margin: auto; padding: 32px 24px; max-width: 420px; text-align: center; }
+  .pesan h1 { font-size: 20px; margin-bottom: 10px; }
+  .pesan p { color: #D9CFBD; line-height: 1.55; font-size: 14px; }
+  .sembunyi { display: none; }
+  /* Spanduk darurat. Merah penuh di atas segalanya, dan tidak bisa
+     ditutup: tanda bahaya yang bisa disingkirkan akan tersingkir
+     tanpa dibaca. */
+  #darurat {
+    background: #B3352B; color: #FAF4E8; padding: 13px 16px;
+    font-size: 15px; font-weight: 650; line-height: 1.45;
+  }
+  #darurat small { display: block; font-weight: 400; opacity: .92; margin-top: 3px; }
+  .leaflet-container { background: #0E2E2B; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  /* ----------------------------------------------------------
+     Penyelarasan dengan ridemate.my.id
+
+     Ditaruh SESUDAH style halaman ini, bukan menggantikannya, supaya
+     yang berubah cuma yang disebut di sini. Warna sengaja tidak
+     disentuh: hijau tua #14403C di halaman-halaman ini memang warna
+     yang sama dengan bagian gelap situs utamanya. Yang membuat
+     keduanya terasa seperti dua produk berbeda adalah hurufnya.
+     ---------------------------------------------------------- */
+  body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  h1, h2, h3 {
+    font-family: "Poppins", system-ui, sans-serif;
+    letter-spacing: -0.015em;
+  }
+  /* Lambang: logo + nama, menggantikan tulisan RIDEMATE polos. */
+  .merek-logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    text-decoration: none; color: #FAF4E8;
+    font-family: "Poppins", system-ui, sans-serif;
+    font-weight: 800; font-size: 19px; letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .merek-logo img { width: 34px; height: 34px; object-fit: contain; display: block; }
+  .merek-logo span { line-height: 1; }
+</style>
+</head>
+<body>
+  <div id="utama" class="sembunyi" style="display:contents">
+    <div id="darurat" class="sembunyi"></div>
+    <header>
+      <a class="merek-logo" style="font-size:16px;margin-bottom:4px" href="https://ridemate.my.id/"><img src="/logo.png" alt="" style="width:26px;height:26px"><span>RideMate</span></a>
+      <h1 id="judul">Memuat…</h1>
+      <p class="tujuan" id="tujuan"></p>
+    </header>
+    <div id="peta"></div>
+    <footer>
+      <p class="kabar" id="kabar"></p>
+      <div class="baris">
+        <span>Kecepatan <b id="kecepatan">–</b></span>
+        <span>Baterai <b id="baterai">–</b></span>
+        <span>Tautan berlaku sampai <b id="berakhir">–</b></span>
+      </div>
+    </footer>
+  </div>
+
+  <div id="gagal" class="pesan sembunyi">
+    <h1 id="gagalJudul">Tautan tidak aktif</h1>
+    <p id="gagalIsi"></p>
+  </div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ============================================================
+// Alamat Edge Function yang menyediakan datanya.
+//
+// Halaman ini sengaja tidak memuat kunci apa pun. Satu-satunya hal yang
+// dibutuhkannya adalah alamat di bawah, dan token yang ada di URL. Kunci
+// service role tetap tinggal di dalam Edge Function, tidak pernah ikut
+// ke peramban siapa pun.
+//
+// Ganti baris ini kalau proyek Supabase-nya berpindah.
+// ============================================================
+const FUNGSI = "https://pvtcrbirubqcyfrozytc.supabase.co/functions/v1/pantau";
+
+const token = new URLSearchParams(location.search).get("t") || "";
+let peta, penanda, jejak = [];
+
+const ALASAN = {
+  tidak_dikenal: "Tautan ini tidak dikenali. Mungkin salah salin, atau sudah dihapus.",
+  dicabut: "Pemiliknya sudah mencabut tautan ini.",
+  kedaluwarsa: "Masa berlaku tautan ini sudah habis.",
+  selesai: "Perjalanannya sudah selesai. Tautan pantau berhenti dengan sendirinya."
+};
+
+function tampilkanGagal(alasan) {
+  document.getElementById("utama").style.display = "none";
+  const kotak = document.getElementById("gagal");
+  kotak.classList.remove("sembunyi");
+  document.getElementById("gagalIsi").textContent =
+    ALASAN[alasan] || "Tautan ini sudah tidak bisa dipakai.";
+}
+
+function jamLokal(iso) {
+  if (!iso) return "–";
+  return new Date(iso).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+}
+
+function seberapaLama(iso) {
+  if (!iso) return "belum ada posisi terkirim";
+  const detik = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+  if (detik < 90) return "baru saja";
+  const menit = Math.round(detik / 60);
+  if (menit < 60) return menit + " menit lalu";
+  const jam = Math.round(menit / 60);
+  return jam + " jam lalu";
+}
+
+async function muat() {
+  let d;
+  try {
+    const r = await fetch(FUNGSI + "?t=" + encodeURIComponent(token), { cache: "no-store" });
+    d = await r.json();
+  } catch (e) {
+    // Jaringan putus sesaat: biarkan tampilan lama, coba lagi 15 detik lagi.
+    return;
+  }
+  if (!d || !d.ok) return tampilkanGagal(d && d.reason);
+
+  document.getElementById("utama").classList.remove("sembunyi");
+  // textContent, bukan innerHTML. Nama dan tujuan berasal dari isian
+  // pengguna, jadi tidak boleh ditafsirkan sebagai HTML.
+  document.getElementById("judul").textContent = d.nama + " sedang dalam perjalanan";
+  document.getElementById("tujuan").textContent = (d.asal || "") + " → " + (d.tujuan || "");
+  document.getElementById("kecepatan").textContent =
+    d.kecepatan == null ? "–" : Math.round(d.kecepatan) + " km/jam";
+  document.getElementById("baterai").textContent =
+    d.baterai == null ? "–" : d.baterai + "%";
+  document.getElementById("berakhir").textContent = jamLokal(d.berakhir);
+
+  // Tanda darurat. Ditulis dengan textContent seperti yang lain, karena
+  // catatannya diketik pengguna.
+  const darurat = document.getElementById("darurat");
+  if (d.sos) {
+    darurat.classList.remove("sembunyi");
+    darurat.textContent = d.nama + " menekan tombol darurat " + seberapaLama(d.sos.sejak) + ".";
+    if (d.sos.catatan) {
+      const ket = document.createElement("small");
+      ket.textContent = d.sos.catatan;
+      darurat.appendChild(ket);
+    }
+    document.title = "DARURAT · " + d.nama + " · RideMate";
+  } else {
+    darurat.classList.add("sembunyi");
+    document.title = "Pantau perjalanan · RideMate";
+  }
+
+  const kabar = document.getElementById("kabar");
+  if (!d.berbagi) {
+    kabar.textContent = "Berbagi lokasi sedang dimatikan. Posisi terakhir " +
+      seberapaLama(d.diperbarui) + ".";
+    kabar.className = "kabar diam";
+  } else {
+    kabar.textContent = "Posisi diperbarui " + seberapaLama(d.diperbarui) + ".";
+    kabar.className = "kabar";
+  }
+
+  if (d.lat == null || d.lon == null) return;
+
+  if (!peta) {
+    peta = L.map("peta", { zoomControl: true, attributionControl: true })
+            .setView([d.lat, d.lon], 15);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(peta);
+    penanda = L.circleMarker([d.lat, d.lon], {
+      radius: 9, color: "#FAF4E8", weight: 3,
+      fillColor: d.sos ? "#B3352B" : "#D97A2B", fillOpacity: 1
+    }).addTo(peta);
+  } else {
+    penanda.setLatLng([d.lat, d.lon]);
+    if (penanda.setStyle) penanda.setStyle({ fillColor: d.sos ? "#B3352B" : "#D97A2B" });
+    peta.panTo([d.lat, d.lon], { animate: true });
+  }
+
+  // Jejak tipis supaya terlihat arah geraknya, bukan sekadar titik melompat.
+  jejak.push([d.lat, d.lon]);
+  if (jejak.length > 200) jejak.shift();
+  if (jejak.length > 1) {
+    if (window._garis) peta.removeLayer(window._garis);
+    window._garis = L.polyline(jejak, { color: "#5FD8C6", weight: 4, opacity: 0.8 }).addTo(peta);
+  }
+}
+
+if (!token) {
+  tampilkanGagal("tidak_dikenal");
+} else {
+  muat();
+  setInterval(muat, 15000);
+}
+</script>
+</body>
+</html>

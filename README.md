@@ -70,7 +70,57 @@ src/
   styles/theme.css      sistem desain
 public/
   hero-touring.webp     foto hero
+  logo.png              logo RideMate, dipakai navbar dan kaki halaman
+  privasi.html          halaman statis — lihat di bawah
+  akun-aktif.html
+  ganti-password.html
+  hapus-akun.html
+  pantau/index.html
+scripts/
+  prarender.mjs         menulis satu HTML per rute + sitemap, sesudah build
 ```
+
+---
+
+## Lima halaman statis di public/
+
+Kelima berkas HTML di `public/` **bukan bagian dari aplikasi React**. Mereka
+halaman berdiri sendiri — tanpa build, tanpa bundel — dan Vite menyalinnya
+ke hasil build apa adanya.
+
+| Alamat | Untuk apa |
+|---|---|
+| `/privasi.html` | Kebijakan privasi. Wajib dicantumkan di Google Play |
+| `/hapus-akun.html` | Menghapus akun tanpa memasang aplikasi. Juga wajib di Play |
+| `/akun-aktif.html` | Tujuan tautan konfirmasi email saat mendaftar |
+| `/ganti-password.html` | Tujuan tautan "Lupa password?" |
+| `/pantau/?t=<token>` | Memantau posisi rider secara langsung di peta |
+
+### Kenapa tidak ditulis ulang jadi React
+
+Keempat halaman pertama menangani autentikasi dan penghapusan akun; yang
+kelima menampilkan posisi seseorang di jalan. Semuanya sudah berjalan di
+produksi selama berbulan-bulan.
+
+Menulis ulang kode yang sudah terbukti, demi keseragaman yang hanya terlihat
+di sisi pengembang, adalah menukar risiko nyata dengan kerapian. Yang
+diseragamkan cuma tampilannya: huruf, logo, dan kaki halaman.
+
+Sisi lainnya: halaman-halaman ini tetap hidup meski bundel React gagal
+dimuat. Untuk halaman yang dibuka orang saat tersesat di jalan, atau saat
+tidak bisa masuk ke akunnya, itu bukan detail kecil.
+
+### Dua hal yang jangan diubah tanpa membaca dulu
+
+**`/pantau/` tidak boleh terindeks.** Alamatnya memuat token yang memberi
+akses ke posisi langsung seseorang. Ia dilarang di `robots.txt`, memasang
+`<meta name="robots" content="noindex">`, dan `referrer: no-referrer` supaya
+alamat lengkapnya tidak bocor ke server penyedia peta.
+
+**Alamat kelimanya sudah tersebar.** Tiga di antaranya tertulis di email
+yang sudah terkirim ke pengguna, dan di dalam APK yang beredar. Mengganti
+nama berkasnya memutus tautan yang ada di kotak masuk orang. Repo
+`ridemate-pantau` menyimpan pengalih untuk alamat lama; jangan dihapus.
 
 ---
 

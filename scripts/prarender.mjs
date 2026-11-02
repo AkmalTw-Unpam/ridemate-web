@@ -130,16 +130,45 @@ for (const r of rute) {
    yang ditulis tangan selalu ketinggalan satu halaman cepat atau lambat,
    dan kesalahannya tidak pernah terlihat — halaman itu cuma tidak pernah
    muncul di Google. */
+
+/**
+ * Halaman HTML statis di public/ yang juga pantas terindeks.
+ *
+ * Keduanya bukan bagian dari aplikasi React — mereka berkas HTML berdiri
+ * sendiri — jadi tidak ikut terbawa daftar rute di atas.
+ *
+ * KENAPA HANYA DUA DARI LIMA
+ *
+ * privasi.html dan hapus-akun.html adalah dua alamat yang diminta Google
+ * Play saat mendaftarkan aplikasi, dan keduanya pantas ditemukan orang
+ * yang mencarinya sendiri.
+ *
+ * Tiga sisanya sengaja TIDAK di sini:
+ * - akun-aktif.html dan ganti-password.html cuma bermakna kalau dibuka
+ *   dari tautan email; berdiri sendiri mereka halaman kosong.
+ * - pantau/ tidak boleh terindeks sama sekali — alamatnya memuat token
+ *   perjalanan seseorang. Ia dilarang di robots.txt dan di meta robots
+ *   halamannya sendiri.
+ */
+const HALAMAN_STATIS = ['/privasi.html', '/hapus-akun.html']
+
 const hariIni = new Date().toISOString().slice(0, 10)
+const semuaAlamat = [
+  ...rute.map((r) => ({
+    alamat: SITUS + (r.jalur === '/' ? '/' : r.jalur),
+    prioritas: r.jalur === '/' ? '1.0' : '0.8',
+  })),
+  ...HALAMAN_STATIS.map((j) => ({ alamat: SITUS + j, prioritas: '0.5' })),
+]
+
 const sitemap =
   '<?xml version="1.0" encoding="UTF-8"?>\n' +
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-  rute
-    .map((r) => {
-      const alamat = SITUS + (r.jalur === '/' ? '/' : r.jalur)
-      const prioritas = r.jalur === '/' ? '1.0' : '0.8'
-      return `  <url>\n    <loc>${alamat}</loc>\n    <lastmod>${hariIni}</lastmod>\n    <priority>${prioritas}</priority>\n  </url>`
-    })
+  semuaAlamat
+    .map(
+      (u) =>
+        `  <url>\n    <loc>${u.alamat}</loc>\n    <lastmod>${hariIni}</lastmod>\n    <priority>${u.prioritas}</priority>\n  </url>`,
+    )
     .join('\n') +
   '\n</urlset>\n'
 

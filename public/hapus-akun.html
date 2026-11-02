@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hapus akun RideMate</title>
+<meta name="description" content="Menghapus akun RideMate beserta seluruh datanya, tanpa perlu memasang aplikasinya.">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 16px 48px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #14403C; color: #FAF4E8; line-height: 1.55;
+  }
+  main { max-width: 440px; margin: 0 auto; }
+  header { padding: 32px 0 20px; }
+  .merek { font-size: 12px; letter-spacing: 2px; color: #86A697; margin-bottom: 8px; }
+  h1 { font-size: 23px; margin: 0 0 8px; font-weight: 650; }
+  p { font-size: 15px; color: #D9CFBD; margin: 0 0 14px; }
+  p.tegas { color: #FAF4E8; }
+  h2 { font-size: 16px; margin: 26px 0 10px; font-weight: 650; }
+  label { display: block; font-size: 14px; color: #D9CFBD; margin-bottom: 6px; }
+  input {
+    width: 100%; padding: 13px 14px; font-size: 16px; font-family: inherit;
+    border-radius: 8px; border: 1px solid #2F6B64;
+    background: #0E2E2B; color: #FAF4E8;
+  }
+  input:focus { outline: 2px solid #86A697; outline-offset: 1px; }
+  button {
+    width: 100%; margin-top: 14px; padding: 15px; font-size: 16px;
+    font-family: inherit; font-weight: 650; border: 0; border-radius: 8px;
+    background: #B3352B; color: #FAF4E8; cursor: pointer;
+  }
+  button.lembut { background: #1F5C56; }
+  button:disabled { background: #3A4F4C; color: #8EA09D; cursor: not-allowed; }
+  ul { margin: 0 0 14px; padding-left: 20px; }
+  li { font-size: 15px; color: #D9CFBD; margin-bottom: 9px; }
+  li::marker { color: #B3352B; }
+  .kartu { background: #0E2E2B; border-radius: 12px; padding: 16px 18px; margin-bottom: 18px; }
+  .galat { color: #F0A79E; font-size: 14px; margin-top: 12px; }
+  .sembunyi { display: none; }
+  footer { margin-top: 40px; font-size: 13px; color: #86A697; }
+  footer a { color: #86A697; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  /* ----------------------------------------------------------
+     Penyelarasan dengan ridemate.my.id
+
+     Ditaruh SESUDAH style halaman ini, bukan menggantikannya, supaya
+     yang berubah cuma yang disebut di sini. Warna sengaja tidak
+     disentuh: hijau tua #14403C di halaman-halaman ini memang warna
+     yang sama dengan bagian gelap situs utamanya. Yang membuat
+     keduanya terasa seperti dua produk berbeda adalah hurufnya.
+     ---------------------------------------------------------- */
+  body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  h1, h2, h3 {
+    font-family: "Poppins", system-ui, sans-serif;
+    letter-spacing: -0.015em;
+  }
+  /* Lambang: logo + nama, menggantikan tulisan RIDEMATE polos. */
+  .merek-logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    text-decoration: none; color: #FAF4E8;
+    font-family: "Poppins", system-ui, sans-serif;
+    font-weight: 800; font-size: 19px; letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .merek-logo img { width: 34px; height: 34px; object-fit: contain; display: block; }
+  .merek-logo span { line-height: 1; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <a class="merek-logo" href="https://ridemate.my.id/"><img src="/logo.png" alt=""><span>RideMate</span></a>
+    <h1>Hapus akun</h1>
+  </header>
+
+  <!-- 1. Belum disetel -->
+  <section id="siapkan" class="sembunyi">
+    <div class="kartu">
+      <p class="tegas">Halaman ini belum disetel.</p>
+      <p>Isi <code>URL_SUPABASE</code> dan <code>KUNCI_ANON</code> di dalam
+         berkas <code>hapus-akun.html</code>, lalu unggah ulang.</p>
+    </div>
+  </section>
+
+  <!-- 2. Minta email -->
+  <section id="masuk" class="sembunyi">
+    <p>Kalau aplikasinya masih terpasang, cara tercepat ada di dalamnya:
+       <b>Profil → Hapus akun</b>.</p>
+    <p>Kalau aplikasinya sudah kamu copot, masukkan email akunmu di bawah.
+       Kami kirimkan satu tautan ke email itu untuk memastikan akunnya memang
+       milikmu — tanpa itu, siapa pun bisa menghapus akun orang lain hanya
+       dengan menebak alamat emailnya.</p>
+    <form id="formMasuk">
+      <label for="email">Email akun RideMate</label>
+      <input id="email" type="email" inputmode="email" autocomplete="email"
+             placeholder="nama@email.com" required>
+      <button type="submit" class="lembut" id="tombolKirim">Kirim tautan ke email saya</button>
+    </form>
+    <p class="galat sembunyi" id="galatMasuk"></p>
+  </section>
+
+  <!-- 3. Email terkirim -->
+  <section id="terkirim" class="sembunyi">
+    <div class="kartu">
+      <p class="tegas">Cek emailmu.</p>
+      <p>Kalau ada akun RideMate dengan alamat itu, satu tautan sudah dikirim ke
+         sana. Buka tautannya di perangkat ini, dan halaman ini akan melanjutkan
+         sendiri.</p>
+      <p>Tautannya berlaku satu jam. Periksa juga folder spam.</p>
+    </div>
+  </section>
+
+  <!-- 4. Konfirmasi -->
+  <section id="konfirmasi" class="sembunyi">
+    <p class="tegas">Masuk sebagai <b id="emailAkun"></b>.</p>
+    <h2>Yang akan terjadi</h2>
+    <ul id="akibat"></ul>
+    <h2>Ketik HAPUS untuk melanjutkan</h2>
+    <form id="formHapus">
+      <input id="kata" type="text" autocomplete="off" autocapitalize="characters"
+             spellcheck="false" placeholder="HAPUS" required>
+      <button type="submit" id="tombolHapus" disabled>Hapus akun saya</button>
+    </form>
+    <p class="galat sembunyi" id="galatHapus"></p>
+  </section>
+
+  <!-- 5. Selesai -->
+  <section id="selesai" class="sembunyi">
+    <div class="kartu">
+      <p class="tegas">Akunmu sudah dihapus.</p>
+      <p>Rencana touring, pesan, penilaian, jejak lokasi, dan seluruh data
+         lainnya ikut terhapus. Tidak ada yang bisa dipulihkan.</p>
+      <p>Terima kasih sudah pernah memakai RideMate.</p>
+    </div>
+  </section>
+
+  <footer>
+    <a href="https://ridemate.my.id/">ridemate.my.id</a> · Pertanyaan tentang data: <a href="mailto:petxsprespart@gmail.com">petxsprespart@gmail.com</a>
+  </footer>
+</main>
+
+<script type="module">
+// ============================================================
+// ISI DUA BARIS INI
+// ============================================================
+// Keduanya memang boleh dilihat publik — kunci anon sudah ikut tertanam di
+// dalam APK RideMate dan dirancang untuk itu. Yang menjaga data tetap aman
+// adalah Row Level Security di database, bukan kerahasiaan kunci ini.
+// ============================================================
+// >>> BERKAS INI BELUM BISA DIPAKAI SEBELUM BARIS KUNCI DIISI <<<
+//
+// Salin nilai KUNCI_ANON dari berkas yang sama di repo
+// ridemate-pantau — di sana kuncinya sudah terisi. Jangan ketik
+// ulang dari ingatan; satu karakter salah dan halaman ini diam saja
+// tanpa pesan apa pun yang berguna.
+//
+// Kunci anon memang boleh dilihat publik: ia sudah ikut tertanam di
+// dalam APK RideMate dan dirancang untuk itu. Yang menjaga data
+// tetap aman adalah Row Level Security di database.
+// ============================================================
+const URL_SUPABASE = "https://pvtcrbirubqcyfrozytc.supabase.co";
+const KUNCI_ANON   = "ISI_KUNCI_ANON_DI_SINI";
+// ============================================================
+
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const $ = (id) => document.getElementById(id);
+const tampil = (id) => $(id).classList.remove("sembunyi");
+const sembunyi = (id) => $(id).classList.add("sembunyi");
+const hanya = (id) => {
+    ["siapkan", "masuk", "terkirim", "konfirmasi", "selesai"].forEach(sembunyi);
+    tampil(id);
+};
+
+if (!KUNCI_ANON || KUNCI_ANON.startsWith("ISI_")) {
+    hanya("siapkan");
+    throw new Error("Belum disetel.");
+}
+
+// flowType implicit, bukan pkce.
+//
+// pkce menyimpan satu nilai rahasia di browser yang MEMINTA tautan, lalu
+// menuntut nilai itu ada saat tautannya dibuka. Orang yang meminta tautan
+// di laptop lalu membuka emailnya di HP akan gagal, dan pesan gagalnya
+// tidak akan menjelaskan apa pun. Untuk halaman yang dipakai sekali dan
+// harus berhasil sekali, implicit lebih tahan.
+const db = createClient(URL_SUPABASE, KUNCI_ANON, {
+    auth: { flowType: "implicit", detectSessionInUrl: true, persistSession: true },
+});
+
+const KATA_KUNCI = "HAPUS";
+const cocok = (teks) => teks.trim().toUpperCase() === KATA_KUNCI;
+
+// Kalimat akibat dibentuk dengan aturan yang sama persis dengan
+// HapusAkun.akibat() di aplikasi. Kalau salah satunya berubah, yang lain
+// harus ikut — dua halaman yang menjanjikan hal berbeda tentang
+// penghapusan yang sama lebih buruk daripada satu halaman yang kurang rinci.
+function akibatDari(r) {
+    const baris = [];
+    if (r.rencana_dibuat > 0) {
+        const dasar = `${r.rencana_dibuat} rencana touring yang kamu buat akan hilang`;
+        baris.push(r.peserta_lain > 0
+            ? `${dasar} — beserta ${r.peserta_lain} orang yang sudah kamu terima di dalamnya. Mereka tidak akan diberi tahu.`
+            : `${dasar}.`);
+    }
+    if (r.rencana_diikuti > 0) {
+        baris.push(`Kamu akan keluar dari ${r.rencana_diikuti} rencana touring yang kamu ikuti.`);
+    }
+    if (r.pesan > 0) {
+        baris.push(`${r.pesan} pesan yang kamu kirim akan hilang dari obrolan orang lain.`);
+    }
+    if (r.penilaian > 0) {
+        baris.push(`${r.penilaian} penilaian tentang kamu akan hilang.`);
+    }
+    baris.push("Jejak lokasi, tanda darurat, dan tautan pantau yang pernah kamu buat ikut terhapus.");
+    baris.push("Akun ini tidak bisa dipulihkan. Mendaftar lagi dengan email yang sama membuat akun baru yang kosong.");
+    return baris;
+}
+
+async function tampilkanKonfirmasi(sesi) {
+    $("emailAkun").textContent = sesi.user.email ?? "akun ini";
+
+    let baris;
+    try {
+        const { data, error } = await db.rpc("account_summary");
+        // Ringkasan yang gagal dimuat tidak boleh menutup jalan keluar
+        // seseorang. Daftarnya tetap tampil, hanya tanpa angka.
+        baris = (error || !data || data.ok !== true) ? akibatDari({}) : akibatDari(data);
+    } catch {
+        baris = akibatDari({});
+    }
+
+    const ul = $("akibat");
+    ul.textContent = "";
+    for (const teks of baris) {
+        const li = document.createElement("li");
+        li.textContent = teks;       // textContent, bukan innerHTML
+        ul.appendChild(li);
+    }
+    hanya("konfirmasi");
+}
+
+$("formMasuk").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const tombol = $("tombolKirim");
+    tombol.disabled = true;
+    tombol.textContent = "Mengirim…";
+    sembunyi("galatMasuk");
+
+    const { error } = await db.auth.signInWithOtp({
+        email: $("email").value.trim(),
+        options: {
+            // Tanpa ini, memasukkan email asing justru MEMBUAT akun baru —
+            // halaman penghapusan akun yang diam-diam mendaftarkan orang.
+            shouldCreateUser: false,
+            emailRedirectTo: window.location.origin + window.location.pathname,
+        },
+    });
+
+    // Jawabannya sengaja sama, berhasil atau tidak. Membedakan keduanya
+    // membuat halaman ini bisa dipakai menebak-nebak email siapa saja yang
+    // terdaftar di RideMate.
+    if (error) console.warn("signInWithOtp:", error.message);
+    hanya("terkirim");
+});
+
+$("kata").addEventListener("input", (e) => {
+    $("tombolHapus").disabled = !cocok(e.target.value);
+});
+
+$("formHapus").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const tombol = $("tombolHapus");
+    tombol.disabled = true;
+    tombol.textContent = "Menghapus…";
+    sembunyi("galatHapus");
+
+    try {
+        const { data: { session } } = await db.auth.getSession();
+        if (!session) throw new Error("Sesi sudah berakhir. Minta tautan baru.");
+
+        const r = await fetch(`${URL_SUPABASE}/functions/v1/hapus-akun`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${session.access_token}`,
+                "apikey": KUNCI_ANON,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ konfirmasi: KATA_KUNCI }),
+        });
+        const isi = await r.json().catch(() => null);
+        if (!r.ok || !isi || isi.ok !== true) {
+            throw new Error("Server gagal menghapus akun. Coba lagi beberapa saat lagi.");
+        }
+
+        await db.auth.signOut().catch(() => {});
+        hanya("selesai");
+    } catch (err) {
+        $("galatHapus").textContent = err.message;
+        tampil("galatHapus");
+        tombol.textContent = "Hapus akun saya";
+        tombol.disabled = false;
+    }
+});
+
+// Saat halaman dibuka dari tautan email, supabase-js membaca token di
+// belakang "#" lalu membangun sesinya. Prosesnya tidak seketika, jadi
+// sesinya ditunggu lewat onAuthStateChange, bukan dibaca sekali.
+db.auth.onAuthStateChange((_peristiwa, sesi) => {
+    if (sesi) {
+        // Token dibuang dari alamat supaya tidak tertinggal di riwayat
+        // browser maupun ikut tersalin kalau alamatnya dibagikan.
+        history.replaceState(null, "", window.location.pathname);
+        tampilkanKonfirmasi(sesi);
+    }
+});
+
+const { data: { session: sesiAwal } } = await db.auth.getSession();
+if (sesiAwal) {
+    tampilkanKonfirmasi(sesiAwal);
+} else if (!window.location.hash.includes("access_token")) {
+    hanya("masuk");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Akun aktif · RideMate</title>
+<meta name="description" content="Halaman tujuan tautan konfirmasi email RideMate.">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 16px 48px; min-height: 100dvh;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #14403C; color: #FAF4E8; line-height: 1.55;
+    display: flex; align-items: center; justify-content: center;
+  }
+  main { max-width: 400px; width: 100%; }
+  .merek { font-size: 12px; letter-spacing: 2px; color: #86A697; margin-bottom: 10px; }
+  .tanda {
+    width: 54px; height: 54px; border-radius: 50%;
+    display: grid; place-items: center; margin-bottom: 18px;
+    font-size: 28px; line-height: 1;
+  }
+  .tanda.baik { background: #1F5C56; }
+  .tanda.buruk { background: #B3352B; }
+  h1 { font-size: 22px; margin: 0 0 10px; font-weight: 650; }
+  p { font-size: 15px; color: #D9CFBD; margin: 0 0 14px; }
+  ol { padding-left: 20px; margin: 0 0 14px; }
+  li { font-size: 15px; color: #D9CFBD; margin-bottom: 7px; }
+  .kartu { background: #0E2E2B; border-radius: 12px; padding: 20px; }
+  footer { margin-top: 26px; font-size: 13px; color: #86A697; }
+  footer a { color: #86A697; }
+  .sembunyi { display: none; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  /* ----------------------------------------------------------
+     Penyelarasan dengan ridemate.my.id
+
+     Ditaruh SESUDAH style halaman ini, bukan menggantikannya, supaya
+     yang berubah cuma yang disebut di sini. Warna sengaja tidak
+     disentuh: hijau tua #14403C di halaman-halaman ini memang warna
+     yang sama dengan bagian gelap situs utamanya. Yang membuat
+     keduanya terasa seperti dua produk berbeda adalah hurufnya.
+     ---------------------------------------------------------- */
+  body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  h1, h2, h3 {
+    font-family: "Poppins", system-ui, sans-serif;
+    letter-spacing: -0.015em;
+  }
+  /* Lambang: logo + nama, menggantikan tulisan RIDEMATE polos. */
+  .merek-logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    text-decoration: none; color: #FAF4E8;
+    font-family: "Poppins", system-ui, sans-serif;
+    font-weight: 800; font-size: 19px; letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .merek-logo img { width: 34px; height: 34px; object-fit: contain; display: block; }
+  .merek-logo span { line-height: 1; }
+</style>
+</head>
+<body>
+<main>
+  <a class="merek-logo" href="https://ridemate.my.id/"><img src="/logo.png" alt=""><span>RideMate</span></a>
+
+  <!-- Berhasil -->
+  <section id="baik" class="sembunyi">
+    <div class="kartu">
+      <div class="tanda baik">✓</div>
+      <h1>Emailmu sudah dikonfirmasi</h1>
+      <p>Akun RideMate-mu sekarang aktif. Kembali ke aplikasi dan masuk dengan
+         email dan password yang tadi kamu daftarkan.</p>
+      <p>Halaman ini boleh ditutup.</p>
+    </div>
+  </section>
+
+  <!-- Tautan kedaluwarsa atau sudah terpakai -->
+  <section id="buruk" class="sembunyi">
+    <div class="kartu">
+      <div class="tanda buruk">!</div>
+      <h1>Tautannya tidak berlaku lagi</h1>
+      <p id="sebab">Tautan konfirmasi hanya berlaku sekali dan punya masa
+         berlaku terbatas.</p>
+      <p>Yang bisa kamu lakukan:</p>
+      <ol>
+        <li>Kalau kamu sudah pernah menekan tautan ini sebelumnya, akunmu
+            kemungkinan besar sudah aktif — coba masuk langsung dari aplikasi.</li>
+        <li>Kalau masih ditolak, buka aplikasi RideMate dan tekan
+            <b>Kirim ulang email konfirmasi</b> di layar masuk.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Dibuka langsung tanpa tautan -->
+  <section id="kosong" class="sembunyi">
+    <div class="kartu">
+      <h1>Halaman konfirmasi RideMate</h1>
+      <p>Halaman ini terbuka sendiri saat kamu menekan tautan konfirmasi yang
+         dikirim ke emailmu setelah mendaftar.</p>
+      <p>Kalau kamu sampai ke sini tanpa menekan tautan itu, tidak ada yang
+         perlu dilakukan di sini. Buka saja aplikasi RideMate.</p>
+    </div>
+  </section>
+
+  <footer>
+    <a href="https://ridemate.my.id/">ridemate.my.id</a> · <a href="hapus-akun.html">Hapus akun</a>
+  </footer>
+</main>
+
+<script>
+// Tidak perlu supabase-js di halaman ini, dan itu disengaja.
+//
+// Konfirmasinya sudah terjadi di server SEBELUM halaman ini terbuka: tautan
+// di email menunjuk ke /auth/v1/verify milik Supabase, yang menandai akunnya
+// aktif lalu mengarahkan ke sini. Jadi yang tersisa cuma membaca hasilnya
+// dari alamat dan mengatakannya dengan jelas. Memuat pustaka 40 KB dari CDN
+// hanya untuk itu berarti halaman ini bisa gagal karena alasan yang tidak
+// ada hubungannya dengan konfirmasi — di jaringan seluler yang lambat,
+// tepat pada saat seseorang baru pertama kali mencoba aplikasinya.
+(function () {
+    var tampil = function (id) { document.getElementById(id).classList.remove("sembunyi"); };
+
+    // Supabase menaruh hasilnya di dua tempat berbeda tergantung jenis
+    // kegagalannya: ada yang di belakang "#", ada yang di belakang "?".
+    var hash = new URLSearchParams(location.hash.replace(/^#/, ""));
+    var cari = new URLSearchParams(location.search);
+    var ambil = function (kunci) { return hash.get(kunci) || cari.get(kunci); };
+
+    var galat = ambil("error") || ambil("error_code");
+    var token = hash.get("access_token");
+
+    if (galat) {
+        var keterangan = ambil("error_description");
+        if (keterangan) {
+            // Keterangan dari Supabase berbahasa Inggris. Dipasang apa
+            // adanya di bawah kalimat Indonesia, bukan menggantikannya —
+            // berguna buat kamu saat menelusuri masalah, tanpa menjadi
+            // satu-satunya hal yang dibaca pengguna.
+            var p = document.getElementById("sebab");
+            p.textContent = p.textContent + " (" + keterangan.replace(/\+/g, " ") + ")";
+        }
+        tampil("buruk");
+    } else if (token) {
+        tampil("baik");
+    } else {
+        tampil("kosong");
+    }
+
+    // Token dibuang dari alamat supaya tidak tertinggal di riwayat browser
+    // maupun ikut tersalin kalau alamatnya dibagikan.
+    if (location.hash || location.search) {
+        history.replaceState(null, "", location.pathname);
+    }
+})();
+</script>
+</body>
+</html>

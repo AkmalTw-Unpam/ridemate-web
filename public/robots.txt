@@ -1,13 +1,20 @@
 # Situs resmi RideMate — https://ridemate.my.id
-#
-# Seluruh halaman boleh dirayapi. Tidak ada area tertutup di sini: enam
-# halaman penjelasan produk, tanpa akun, tanpa data pengguna.
-#
-# Catatan: pantau.ridemate.my.id adalah situs terpisah dengan robots.txt-nya
-# sendiri, dan di sana halaman pantau memang DILARANG diindeks karena
-# alamatnya mengandung token perjalanan seseorang.
 
 User-agent: *
 Allow: /
+
+# ------------------------------------------------------------
+# Halaman pantau perjalanan TIDAK BOLEH diindeks.
+#
+# Alamatnya berbentuk /pantau/?t=<token>, dan token itu memberi akses
+# penuh ke posisi langsung seseorang selama tautannya berlaku. Satu saja
+# yang terindeks berarti alamat lengkapnya tersimpan di hasil pencarian
+# Google, dan siapa pun yang menemukannya bisa membukanya.
+#
+# Halamannya sendiri juga memasang <meta name="robots" content="noindex">
+# dan referrer no-referrer. Tiga lapis untuk hal yang sama, karena yang
+# dipertaruhkan lokasi orang di jalan.
+# ------------------------------------------------------------
+Disallow: /pantau/
 
 Sitemap: https://ridemate.my.id/sitemap.xml
