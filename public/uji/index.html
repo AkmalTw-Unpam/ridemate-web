@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Pasang RideMate · Versi uji coba</title>
+<meta name="description" content="Halaman pemasangan RideMate versi uji coba.">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!--
+  Halaman pemasangan untuk penguji.
+
+  TIDAK DITAUT DARI MANA PUN, dan dilarang di robots.txt. Alamatnya dikirim
+  langsung ke orang yang diminta menguji. Itu bukan keamanan sungguhan —
+  siapa pun yang tahu alamatnya bisa membukanya — melainkan supaya halaman
+  ini tidak muncul di Google sebagai "unduh RideMate" dan membuat orang
+  memasang versi uji coba, lalu tidak pernah mendapat pembaruan.
+
+  DIRANCANG UNTUK LAYAR PONSEL LEBIH DULU.
+  Penguji membuka tautan ini dari WhatsApp di HP-nya, bukan di laptop.
+
+  BAGIAN TERPENTING DI HALAMAN INI BUKAN TOMBOL UNDUHNYA, melainkan tiga
+  langkah di bawahnya. Android akan menampilkan peringatan menakutkan
+  tentang "sumber tidak dikenal", dan kebanyakan orang berhenti di situ
+  karena mengira ada yang salah. Peringatan itu dijelaskan di muka, lengkap
+  dengan kalimat yang akan mereka lihat, supaya tidak ada yang batal
+  memasang karena ragu.
+-->
+<style>
+  :root {
+    --night: #0b1211;
+    --teal-deep: #14403c;
+    --teal-dark: #0e2e2b;
+    --cream: #faf4e8;
+    --cream-deep: #f3e9d7;
+    --sage: #8caa9e;
+    --sunset: #d97a2b;
+    --garis: rgba(250, 244, 232, 0.14);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 20px 56px;
+    background: var(--teal-deep);
+    color: var(--cream);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 440px; margin: 0 auto; }
+
+  header { padding: 40px 0 6px; }
+  /* display:flex, bukan inline-flex. Dengan inline-flex, pita "Versi uji
+     coba" di bawahnya ikut naik ke baris yang sama dan keduanya jadi
+     berdesakan di layar sempit. width:fit-content menjaga area kliknya
+     tetap selebar isinya, bukan selebar layar. */
+  .merek-logo {
+    display: flex; width: fit-content; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--cream);
+    font-family: "Poppins", system-ui, sans-serif;
+    font-weight: 800; font-size: 19px; letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .merek-logo img { width: 34px; height: 34px; object-fit: contain; display: block; }
+
+  .pita {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sunset);
+    background: rgba(217, 122, 43, 0.14);
+    border-radius: 999px;
+    padding: 5px 12px;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-family: "Poppins", system-ui, sans-serif;
+    font-size: 28px; line-height: 1.18; font-weight: 700;
+    letter-spacing: -0.025em;
+    margin: 0 0 10px;
+  }
+  .lede { color: var(--cream); margin: 0 0 4px; }
+  p { color: #d9cfbd; margin: 0 0 15px; }
+
+  /* ---------- Tombol unduh ---------- */
+  .unduh {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%;
+    margin: 26px 0 10px;
+    padding: 17px 22px;
+    border-radius: 999px;
+    background: var(--sunset);
+    color: #16232e;
+    font-family: "Poppins", system-ui, sans-serif;
+    font-weight: 700; font-size: 17px;
+    text-decoration: none;
+    box-shadow: 0 8px 26px rgba(217, 122, 43, 0.22);
+  }
+  .unduh:active { transform: translateY(1px); }
+  .unduh svg { flex: none; }
+  .berkas {
+    text-align: center; font-size: 13px; color: var(--sage);
+    margin: 0 0 34px;
+  }
+
+  /* ---------- Langkah ---------- */
+  h2 {
+    font-family: "Poppins", system-ui, sans-serif;
+    font-size: 17px; font-weight: 650; margin: 34px 0 14px;
+    padding-top: 22px; border-top: 1px solid rgba(250, 244, 232, 0.12);
+  }
+  ol.langkah { list-style: none; counter-reset: n; margin: 0; padding: 0; }
+  ol.langkah > li {
+    counter-increment: n;
+    position: relative;
+    padding-left: 42px;
+    margin-bottom: 22px;
+  }
+  ol.langkah > li::before {
+    content: counter(n);
+    position: absolute; left: 0; top: 1px;
+    width: 28px; height: 28px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--teal-dark);
+    border: 1px solid var(--garis);
+    font-family: "Poppins", system-ui, sans-serif;
+    font-weight: 700; font-size: 14px;
+    color: var(--sunset);
+  }
+  ol.langkah b { color: var(--cream); font-weight: 650; }
+  ol.langkah p { margin: 4px 0 0; font-size: 15px; }
+
+  .kutip {
+    background: var(--teal-dark);
+    border-left: 3px solid var(--sunset);
+    border-radius: 0 8px 8px 0;
+    padding: 13px 16px;
+    margin: 10px 0 0;
+    font-size: 14.5px;
+    color: #d9cfbd;
+  }
+
+  ul.periksa { margin: 0; padding-left: 20px; }
+  ul.periksa li { color: #d9cfbd; margin-bottom: 9px; font-size: 15px; }
+  ul.periksa li::marker { color: var(--sage); }
+
+  .catatan {
+    background: var(--teal-dark);
+    border: 1px solid var(--garis);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-top: 10px;
+  }
+  .catatan p:last-child { margin-bottom: 0; }
+
+  footer {
+    margin-top: 44px; padding-top: 22px;
+    border-top: 1px solid rgba(250, 244, 232, 0.12);
+    font-size: 13.5px; color: var(--sage);
+  }
+  footer a { color: var(--sage); }
+
+  @media (max-width: 380px) {
+    h1 { font-size: 25px; }
+    .unduh { font-size: 16px; padding: 16px 18px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <a class="merek-logo" href="https://ridemate.my.id/">
+      <img src="/logo.png" alt=""><span>RideMate</span>
+    </a>
+    <div class="pita">Versi uji coba</div>
+    <!-- "ponselmu", bukan "HP-mu": di layar 390px, tanda hubung jadi titik
+         putus baris dan judulnya terpotong "HP-" / "mu". -->
+    <h1>Pasang RideMate di ponselmu</h1>
+    <p class="lede">Terima kasih sudah mau mencoba. Aplikasinya belum terbit
+       di Play Store, jadi pemasangannya lewat berkas langsung.</p>
+  </header>
+
+  <a class="unduh" href="https://github.com/AkmalTw-Unpam/ridemate-web/releases/download/v0.1.0-uji/app-debug.apk">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 3v12M7 10.5l5 5 5-5"/><path d="M4 20.5h16"/>
+    </svg>
+    Unduh RideMate
+  </a>
+  <p class="berkas">Versi 0.1.0 · 154 MB · Android 8.0 ke atas</p>
+
+  <h2>Tiga langkah, sekitar lima menit</h2>
+  <ol class="langkah">
+    <li>
+      <b>Unduh berkasnya</b>
+      <p>Ukurannya 154 MB, jadi sebaiknya pakai WiFi. Kalau Chrome bertanya
+         "Berkas ini dapat membahayakan perangkat", pilih <b>Tetap unduh</b> —
+         itu pertanyaan yang sama untuk semua berkas APK, bukan tentang
+         aplikasi ini secara khusus.</p>
+    </li>
+    <li>
+      <b>Buka berkasnya, lalu izinkan</b>
+      <p>Android akan menolak sekali dan menampilkan kalimat seperti ini:</p>
+      <div class="kutip">
+        "Demi keamanan, ponsel Anda tidak diizinkan memasang aplikasi tidak
+        dikenal dari sumber ini."
+      </div>
+      <p>Itu normal dan muncul untuk setiap aplikasi yang belum lewat Play
+         Store. Tekan <b>Setelan</b> pada peringatan itu, nyalakan
+         <b>Izinkan dari sumber ini</b>, lalu tekan tombol kembali.</p>
+    </li>
+    <li>
+      <b>Pasang, lalu buka</b>
+      <p>Daftar pakai email yang aktif — ada satu email konfirmasi yang perlu
+         kamu buka sebelum bisa masuk. Periksa folder spam kalau tidak
+         kunjung masuk.</p>
+    </li>
+  </ol>
+
+  <h2>Yang paling berguna untuk dicoba</h2>
+  <ul class="periksa">
+    <li>Daftar akun baru sampai berhasil masuk</li>
+    <li>Isi profil: nama, kota, kendaraan</li>
+    <li>Buat satu rencana touring, lihat apakah jaraknya terhitung</li>
+    <li>Buka peta dan pastikan petanya tampil, bukan layar abu-abu kosong</li>
+    <li>Nyalakan mode perjalanan sebentar, lihat apakah posisimu bergerak</li>
+  </ul>
+
+  <h2>Kalau ada yang aneh</h2>
+  <div class="catatan">
+    <p>Kabari saja apa adanya — aplikasi tertutup sendiri, tombol yang tidak
+       bereaksi, tulisan yang salah, apa pun.</p>
+    <p>Yang paling membantu: <b>di layar mana</b> kejadiannya, dan
+       <b>apa yang kamu tekan</b> sebelum itu. Tangkapan layar lebih baik
+       lagi.</p>
+  </div>
+
+  <h2>Dua hal yang perlu kamu tahu</h2>
+  <div class="catatan">
+    <p><b>Ini versi uji coba, bukan versi final.</b> Ia berjalan sedikit lebih
+       lambat daripada versi yang nanti terbit di Play Store, dan ukurannya
+       jauh lebih besar. Keduanya wajar untuk build pengujian.</p>
+    <p><b>Versi ini tidak akan memperbarui dirinya sendiri.</b> Begitu RideMate
+       terbit di Play Store, copot yang ini lalu pasang dari sana.</p>
+  </div>
+
+  <footer>
+    <a href="https://ridemate.my.id/">ridemate.my.id</a> ·
+    <a href="https://ridemate.my.id/privasi.html">Kebijakan privasi</a> ·
+    <a href="https://ridemate.my.id/hapus-akun.html">Hapus akun</a>
+  </footer>
+</main>
+</body>
+</html>

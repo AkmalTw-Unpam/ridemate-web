@@ -17,4 +17,18 @@ Allow: /
 # ------------------------------------------------------------
 Disallow: /pantau/
 
+# ------------------------------------------------------------
+# Halaman pemasangan versi uji coba.
+#
+# Alamatnya dikirim langsung ke penguji, bukan untuk ditemukan lewat
+# pencarian. Kalau terindeks, orang yang mencari "unduh RideMate" bisa
+# mendarat di sana dan memasang versi uji coba — lalu tidak pernah
+# mendapat pembaruan, karena APK di luar Play Store tidak memperbarui
+# dirinya sendiri.
+#
+# Dihapus dari sini begitu aplikasinya terbit di Play Store dan
+# halamannya dicabut.
+# ------------------------------------------------------------
+Disallow: /uji/
+
 Sitemap: https://ridemate.my.id/sitemap.xml
