@@ -47,9 +47,30 @@ function teks(nilai: unknown): string {
    pembatasan. Seluruh isi berkas ini ikut terkirim ke peramban setiap
    pengunjung dan bisa dibaca siapa pun lewat devtools. */
 const BAWAAN = {
-  /** Contoh: 'halo@ridemate.my.id' */
-  contactEmail: '',
-  /** Contoh: 'https://instagram.com/ridemate.id' */
+  /**
+   * Alamat yang sama dengan yang tertulis di halaman kebijakan privasi.
+   *
+   * Satu alamat untuk keduanya, bukan dua, karena dua alamat berarti dua
+   * kotak masuk yang harus diingat — dan yang jarang dibuka cepat atau
+   * lambat menumpuk tanpa ada yang tahu.
+   *
+   * Diteruskan ke Gmail lewat Cloudflare Email Routing. Penerusan itu
+   * dibuat PER ALAMAT: kalau suatu saat mau menambah halo@ridemate.my.id
+   * atau dukungan@ridemate.my.id, alamat barunya harus didaftarkan dulu di
+   * Cloudflare → Email → Routing. Alamat yang belum terdaftar di sana
+   * suratnya hilang begitu saja, tanpa pesan gagal ke pengirimnya.
+   */
+  contactEmail: 'privasi@ridemate.my.id',
+
+  /**
+   * Diisi begitu akunnya ada. Yang dibutuhkan alamat lengkapnya, bukan
+   * nama tampilan — misalnya 'https://instagram.com/ridemate.touring'.
+   *
+   * Selama kosong, ikonnya tidak ditampilkan sama sekali. Itu disengaja:
+   * tautan media sosial yang mengarah ke halaman kosong terbaca sebagai
+   * situs yang ditinggalkan, dan itu lebih merugikan daripada tidak ada
+   * tautannya.
+   */
   instagramUrl: '',
   /** Contoh: 'https://youtube.com/@ridemate' */
   youtubeUrl: '',

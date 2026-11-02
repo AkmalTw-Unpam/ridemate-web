@@ -1,8 +1,39 @@
+####################################################################
+# Membangun dan menerbitkan situs RideMate ke GitHub Pages
+#
+# KENAPA ADA BERKAS INI
+#
+# Yang kamu unggah ke repo ini adalah kode sumber: berkas .tsx, .ts,
+# dan .css. Peramban tidak mengerti satu pun dari itu — ia hanya
+# mengerti .html, .js, dan .css biasa. Jadi kode sumbernya harus
+# "dibangun" dulu menjadi berkas yang dimengerti peramban.
+#
+# Biasanya itu dikerjakan di laptop dengan `npm run build`, lalu
+# hasilnya di folder dist/ diunggah. Artinya kamu harus memasang
+# Node.js, dan harus ingat membangun ulang setiap kali ada perubahan
+# — dan kalau lupa, situsnya diam-diam menampilkan versi lama.
+#
+# Berkas ini memindahkan pekerjaan itu ke komputer GitHub. Setiap kali
+# kamu menyimpan perubahan ke cabang main, GitHub memasang Node,
+# membangun situsnya, dan menerbitkan hasilnya. Kamu tidak perlu
+# memasang apa pun.
+#
+# YANG HARUS DINYALAKAN SEKALI, DI SETELAN REPO
+#
+#   Settings -> Pages -> Build and deployment -> Source
+#   Pilih "GitHub Actions", BUKAN "Deploy from a branch".
+#
+# Tanpa itu, berkas ini jalan tapi hasilnya tidak diterbitkan.
+####################################################################
+
 name: Terbitkan situs
 
 on:
   push:
     branches: [main]
+  # Supaya bisa dijalankan manual dari tab Actions tanpa perlu
+  # mengubah apa pun — berguna kalau sertifikat atau domain baru
+  # diatur dan situsnya perlu diterbitkan ulang.
   workflow_dispatch:
 
 permissions:
@@ -10,6 +41,9 @@ permissions:
   pages: write
   id-token: write
 
+# Kalau dua unggahan berdekatan, biarkan keduanya selesai berurutan.
+# cancel-in-progress sengaja false: membatalkan penerbitan di
+# tengah jalan bisa meninggalkan situs dalam keadaan separuh.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -26,6 +60,11 @@ jobs:
         with:
           node-version: '22'
 
+      # `npm install`, bukan `npm ci`, karena repo ini sengaja tidak
+      # menyertakan package-lock.json. Kalau nanti kamu pernah
+      # menjalankan `npm install` di laptop, lock-nya akan ikut
+      # tersimpan — saat itu baris ini boleh diganti `npm ci`, yang
+      # lebih cepat dan lebih pasti.
       - name: Pasang paket
         run: npm install
 
