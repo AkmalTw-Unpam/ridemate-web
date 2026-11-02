@@ -63,15 +63,16 @@ const BAWAAN = {
   contactEmail: 'privasi@ridemate.my.id',
 
   /**
-   * Diisi begitu akunnya ada. Yang dibutuhkan alamat lengkapnya, bukan
-   * nama tampilan — misalnya 'https://instagram.com/ridemate.touring'.
+   * Yang ditulis di sini alamat lengkapnya, bukan nama tampilan akunnya.
+   * Nama tampilan Instagram boleh mengandung spasi dan tanda baca —
+   * usernamenya tidak, dan hanya username yang membentuk alamat.
    *
-   * Selama kosong, ikonnya tidak ditampilkan sama sekali. Itu disengaja:
-   * tautan media sosial yang mengarah ke halaman kosong terbaca sebagai
-   * situs yang ditinggalkan, dan itu lebih merugikan daripada tidak ada
-   * tautannya.
+   * Kalau suatu saat kosong lagi, ikonnya tidak ditampilkan sama sekali.
+   * Itu disengaja: tautan media sosial yang mengarah ke halaman kosong
+   * terbaca sebagai situs yang ditinggalkan, dan itu lebih merugikan
+   * daripada tidak ada tautannya.
    */
-  instagramUrl: '',
+  instagramUrl: 'https://www.instagram.com/ridemate.touringmotor',
   /** Contoh: 'https://youtube.com/@ridemate' */
   youtubeUrl: '',
   /** Diisi nanti, setelah aplikasinya terbit di Google Play. */
